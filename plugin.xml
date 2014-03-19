@@ -14,7 +14,7 @@
 
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
-            <feature name="BLEPeripheralManger">
+            <feature name="BLEPeripheralManager">
                 <param name="ios-package" value="BLEPeripheralManager" />
             </feature>
         </config-file>
