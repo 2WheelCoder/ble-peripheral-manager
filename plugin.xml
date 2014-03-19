@@ -15,11 +15,11 @@
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="BLEPeripheralManger">
-                <param name="ios-package" value="BLEPeripheralManger" />
+                <param name="ios-package" value="BLEPeripheralManager" />
             </feature>
         </config-file>
-        <header-file src="classes/ios/BLEPeripheralManger.h" />
-        <source-file src="classes/ios/BLEPeripheralManger.m" />
+        <header-file src="classes/ios/BLEPeripheralManager.h" />
+        <source-file src="classes/ios/BLEPeripheralManager.m" />
         <framework src="CoreBluetooth.framework" />
     </platform>
 </plugin>
