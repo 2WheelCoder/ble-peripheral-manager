@@ -35,7 +35,7 @@
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
     // Execute publish event on 'peripheralManagerDidUpdateState' in JS
-    NSString* js = [NSString stringWithFormat:@"app.publish('peripheralManagerDidUpdateState', %i)", peripheral.state];
+    NSString* js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('peripheralManagerDidUpdateState', %i)", peripheral.state];
     [self.commandDelegate evalJs:js];
 
     NSLog(@"state: %i", peripheral.state);
@@ -70,7 +70,7 @@
 
 -(void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error {
     // Execute publish event on 'didAddService' in JS
-    NSString* js = [NSString stringWithFormat:@"app.publish('didAddService', %i)", peripheral.state];
+    NSString* js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('didAddService', %i)", peripheral.state];
     [self.commandDelegate evalJs:js];
 
     NSLog(@"did add service: %@", service.characteristics);
