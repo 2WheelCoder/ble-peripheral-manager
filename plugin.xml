@@ -18,8 +18,8 @@
                 <param name="ios-package" value="BLEPeripheralManger" />
             </feature>
         </config-file>
-        <header-file src="src/ios/BLEPeripheralManger.h" />
-        <source-file src="src/ios/BLEPeripheralManger.m" />
+        <header-file src="classes/ios/BLEPeripheralManger.h" />
+        <source-file src="classes/ios/BLEPeripheralManger.m" />
         <framework src="CoreBluetooth.framework" />
     </platform>
 </plugin>
