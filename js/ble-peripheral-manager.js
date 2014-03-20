@@ -23,7 +23,7 @@ var BLEPeripheralManager = (function() {
 
         cordova.exec(
             function callback(data) {
-                BLEPeripheralManager.subscribe('didAddService', that.serviceAdded);
+                this.subscribe('didAddService', that.serviceAdded);
             },
             function errorHandler(err) {
                 alert('Error: ', err);
@@ -41,7 +41,7 @@ var BLEPeripheralManager = (function() {
 
         cordova.exec(
             function callback(data) {
-                BLEPeripheralManager.subscribe('peripheralManagerDidUpdateState', that.updateState);
+                this.subscribe('peripheralManagerDidUpdateState', that.updateState);
             },
             function errorHandler(err) {
                 alert('Error: ', err);
@@ -53,7 +53,6 @@ var BLEPeripheralManager = (function() {
     }
 
     function publish(topic, args) {
-
         if ( !this.topics[topic] ) {
             return false;
         }
@@ -133,7 +132,7 @@ var BLEPeripheralManager = (function() {
     }
 
     function updateState(topic, state) {
-        BLEPeripheralManager.state = BLEStates[state];
+        this.state = BLEStates[state];
         console.log("state: ", BLEPeripheralManager.state);
     }
 
