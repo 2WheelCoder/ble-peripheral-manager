@@ -136,6 +136,7 @@ var BLEPeripheralManager = (function() {
     return {
         addService: addService,
         init: init,
+        publish: publish,
         startAdvertising: startAdvertising,
         stopAdvertising: stopAdvertising
     };
