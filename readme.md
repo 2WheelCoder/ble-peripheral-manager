@@ -1,5 +1,9 @@
 # BLE Peripheral Manager Plugin for PhoneGap
 
+## Installation
+
+    phonegap local plugin add https://github.com/2WheelCoder/ble-peripheral-manager.git
+
 ## Methods
 
 ### BLEPeripheralManager.init()
