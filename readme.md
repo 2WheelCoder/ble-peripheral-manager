@@ -1,5 +1,16 @@
 # BLE Peripheral Manager Plugin for PhoneGap
 
+This is my first PhoneGap plugin and first experience with Objective-C. It's a rough start, so I greatly appreciate any feedback for improving the code. There's a lot left to do to get this plugin up to par.
+
+This plugin is only for Bluetooth Peripheral Manager functionality. If you're looking for Central Manager functionality check out https://github.com/randdusing/BluetoothLE.
+
+## Upcoming Improvements
+
+- improved documentation
+- success and error callbacks for asynchronous methods
+- adding characteristics as objects instead of arrays
+- ability to update a characteristic's value
+
 ## Installation
 
     phonegap local plugin add https://github.com/2WheelCoder/ble-peripheral-manager.git
