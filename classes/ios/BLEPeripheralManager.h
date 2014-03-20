@@ -21,8 +21,6 @@
 
 -(void)addService:(CDVInvokedUrlCommand *)command;
 
--(void)removeService:(CDVInvokedUrlCommand *)command;
-
 -(void)removeAllServices:(CDVInvokedUrlCommand *)command;
 
 @end
