@@ -22,7 +22,7 @@ var BLEPeripheralManager = (function() {
 
         cordova.exec(
             function callback(data) {
-                subscribe('didAddService', that.serviceAdded);
+                subscribe('didAddService', serviceAdded);
             },
             function errorHandler(err) {
                 alert('Error: ', err);
@@ -38,7 +38,7 @@ var BLEPeripheralManager = (function() {
     function init() {
         cordova.exec(
             function callback(data) {
-                subscribe('peripheralManagerDidUpdateState', that.updateState);
+                subscribe('peripheralManagerDidUpdateState', updateState);
             },
             function errorHandler(err) {
                 alert('Error: ', err);
