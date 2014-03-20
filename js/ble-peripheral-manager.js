@@ -22,11 +22,9 @@ var BLEPeripheralManager = (function() {
             // BLEPeripheralManager.addService('11EE5D06-923A-4F62-AFB2-62F3BFE27BD3', false, [['5E2A7AED-B41F-4215-AFC9-CF97353A0425', 'service2Characteristic1']])
 
         cordova.exec(
-            // Register the callback handler
             function callback(data) {
                 BLEPeripheralManager.subscribe('didAddService', that.serviceAdded);
             },
-            // Register the errorHandler
             function errorHandler(err) {
                 alert('Error: ', err);
             },
@@ -42,11 +40,9 @@ var BLEPeripheralManager = (function() {
         var that = this;
 
         cordova.exec(
-            // Register the callback handler
             function callback(data) {
                 BLEPeripheralManager.subscribe('peripheralManagerDidUpdateState', that.updateState);
             },
-            // Register the errorHandler
             function errorHandler(err) {
                 alert('Error: ', err);
             },
@@ -144,7 +140,8 @@ var BLEPeripheralManager = (function() {
     return {
         addService: addService,
         init: init,
-        startAdvertising: startAdvertising
+        startAdvertising: startAdvertising,
+        stopAdvertising: stopAdvertising
     };
 
 })();

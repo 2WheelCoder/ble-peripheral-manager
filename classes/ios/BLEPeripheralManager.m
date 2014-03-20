@@ -48,7 +48,7 @@
 
     for (NSArray *characteristicIndex in [command.arguments objectAtIndex:2]) {
         NSString *value = [characteristicIndex objectAtIndex:1];
-        NSData* dataValue = [value dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *dataValue = [value dataUsingEncoding:NSUTF8StringEncoding];
 
         CBMutableCharacteristic *characteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:[characteristicIndex objectAtIndex:0]] properties:CBCharacteristicPropertyRead value:dataValue permissions:CBAttributePermissionsReadable];
 
@@ -70,7 +70,7 @@
 
 -(void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error {
     // Execute publish event on 'didAddService' in JS
-    NSString* js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('didAddService', %i)", peripheral.state];
+    NSString *js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('didAddService', %i)", peripheral.state];
     [self.commandDelegate evalJs:js];
 
     NSLog(@"did add service: %@", service.characteristics);
@@ -124,14 +124,6 @@
 -(void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
     NSLog(@"peripheral manager did start advertising: %@", peripheral);
 }
-
-
-
--(void)removeService:(CDVInvokedUrlCommand *)command {
-
-}
-
-
 
 -(void)removeAllServices:(CDVInvokedUrlCommand *)command {
     [_peripheralManager removeAllServices];
