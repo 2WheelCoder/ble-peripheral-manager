@@ -11,8 +11,7 @@ var BLEPeripheralManager = (function() {
     ];
 
     function addService(serviceUUID, servicePrimary, characteristics) {
-        var that = this,
-            serviceUUID = serviceUUID ? serviceUUID : '51E7D768-92B2-49BE-AACC-FA22233128AB',
+        var serviceUUID = serviceUUID ? serviceUUID : '51E7D768-92B2-49BE-AACC-FA22233128AB',
             characteristicUUID = characteristicUUID ? characteristicUUID : '95749716-6B14-4ECD-B51D-FBCE46DD0538';
 
             // 11EE5D06-923A-4F62-AFB2-62F3BFE27BD3
@@ -23,7 +22,7 @@ var BLEPeripheralManager = (function() {
 
         cordova.exec(
             function callback(data) {
-                this.subscribe('didAddService', that.serviceAdded);
+                subscribe('didAddService', that.serviceAdded);
             },
             function errorHandler(err) {
                 alert('Error: ', err);
@@ -37,11 +36,9 @@ var BLEPeripheralManager = (function() {
     }
 
     function init() {
-        var that = this;
-
         cordova.exec(
             function callback(data) {
-                this.subscribe('peripheralManagerDidUpdateState', that.updateState);
+                subscribe('peripheralManagerDidUpdateState', that.updateState);
             },
             function errorHandler(err) {
                 alert('Error: ', err);
@@ -53,11 +50,11 @@ var BLEPeripheralManager = (function() {
     }
 
     function publish(topic, args) {
-        if ( !this.topics[topic] ) {
+        if ( !topics[topic] ) {
             return false;
         }
 
-        var subscribers = this.topics[topic],
+        var subscribers = topics[topic],
             len = subscribers ? subscribers.length : 0;
 
         while (len--) {
@@ -105,12 +102,12 @@ var BLEPeripheralManager = (function() {
     }
 
     function subscribe(topic, func) {
-        if (!this.topics[topic]) {
-            this.topics[topic] = [];
+        if (!topics[topic]) {
+            topics[topic] = [];
         }
 
-        var token = ( ++this.subUid ).toString();
-        this.topics[topic].push({
+        var token = ( ++subUid ).toString();
+        topics[topic].push({
             token: token,
             func: func
         });
@@ -118,11 +115,11 @@ var BLEPeripheralManager = (function() {
     }
 
     function unsubscribe(token) {
-        for ( var m in this.topics ) {
-            if ( this.topics[m] ) {
-                for ( var i = 0, j = this.topics[m].length; i < j; i++ ) {
-                    if ( this.topics[m][i].token === token ) {
-                        this.topics[m].splice( i, 1 );
+        for ( var m in topics ) {
+            if ( topics[m] ) {
+                for ( var i = 0, j = topics[m].length; i < j; i++ ) {
+                    if ( topics[m][i].token === token ) {
+                        topics[m].splice( i, 1 );
                         return token;
                     }
                 }
@@ -132,8 +129,8 @@ var BLEPeripheralManager = (function() {
     }
 
     function updateState(topic, state) {
-        this.state = BLEStates[state];
-        console.log("state: ", BLEPeripheralManager.state);
+        var state = BLEStates[state];
+        console.log("state: ", state);
     }
 
     return {
