@@ -9,14 +9,20 @@
 #import "BLEPeripheralManager.h"
 
 @implementation BLEPeripheralManager
-
-
+// I'm not sure, but I think you probably want to implement a Singleton class here  
+// http://www.johnwordsworth.com/2010/04/iphone-code-snippet-the-singleton-pattern/
 
 -(void)initPeripheralManager:(CDVInvokedUrlCommand *)command {
+//instead of == nil, do if(!_peripheralManager || _peripheral... ! = ...)
     if(_peripheralManager == nil || _peripheralManager.state != CBPeripheralManagerStatePoweredOn) {
+        // use the automatically generated getters and setters instead of the instance variable
+        // eg self.peripheralManager = ..
+        // However, I image with the singleton model, you wont need this line of code anyways 
+        // See for singleton model http://www.johnwordsworth.com/2010/04/iphone-code-snippet-the-singleton-pattern/
         _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil];
     }
 
+// This multiline style of method calls isn't recommended, read this https://github.com/raywenderlich/objective-c-style-guide 
     NSDictionary *jsonObj = [ [NSDictionary alloc]
                              initWithObjectsAndKeys :
                              @"true", @"success",
@@ -46,6 +52,7 @@
 -(void)addService:(CDVInvokedUrlCommand *)command {
     NSMutableArray *characteristics = [[NSMutableArray alloc] init];
 
+    // Nice use of enumeration 
     for (NSArray *characteristicIndex in [command.arguments objectAtIndex:2]) {
         NSString *value = [characteristicIndex objectAtIndex:1];
         NSData *dataValue = [value dataUsingEncoding:NSUTF8StringEncoding];
@@ -82,6 +89,8 @@
     CDVPluginResult *pluginResult;
     NSDictionary *jsonObj;
 
+// This block is confusing with the dictionary decleration in the same line as the method call
+// Put dictionary decleration on seperate line.
     if (_peripheralManager.state == CBPeripheralManagerStatePoweredOn) {
         [_peripheralManager startAdvertising:@{ CBAdvertisementDataLocalNameKey : [command.arguments objectAtIndex:0], CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:CBUUIDGenericAccessProfileString]] }];
 
@@ -92,12 +101,14 @@
                        nil
                        ];
 
+// Kill multiline method calls with fire!
             pluginResult = [ CDVPluginResult
                             resultWithStatus    : CDVCommandStatus_OK
                             messageAsDictionary : jsonObj
                             ];
         }
     } else {
+// use dictionary literal here eg @{"false... 
         jsonObj = [ [NSDictionary alloc]
                    initWithObjectsAndKeys :
                    @"false", @"error",
@@ -119,7 +130,8 @@
     [_peripheralManager stopAdvertising];
 }
 
-
+// add pragma here
+#pragma mark - Private
 
 -(void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
     NSLog(@"peripheral manager did start advertising: %@", peripheral);
