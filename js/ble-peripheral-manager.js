@@ -10,9 +10,12 @@ var BLEPeripheralManager = (function() {
         'CBPeripheralManagerStatePoweredOn'
     ];
 
+    // Unit tests needed for js code also
+
     function addService(serviceUUID, servicePrimary, characteristics) {
         var serviceUUID = serviceUUID ? serviceUUID : '51E7D768-92B2-49BE-AACC-FA22233128AB',
             characteristicUUID = characteristicUUID ? characteristicUUID : '95749716-6B14-4ECD-B51D-FBCE46DD0538';
+
 
             // 11EE5D06-923A-4F62-AFB2-62F3BFE27BD3
             // 5E2A7AED-B41F-4215-AFC9-CF97353A0425
