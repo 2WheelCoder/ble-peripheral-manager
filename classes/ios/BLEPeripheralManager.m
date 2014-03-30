@@ -12,7 +12,7 @@
 // I'm not sure, but I think you probably want to implement a Singleton class here  
 // http://www.johnwordsworth.com/2010/04/iphone-code-snippet-the-singleton-pattern/
 
--(void)initPeripheralManager:(CDVInvokedUrlCommand *)command {
+- (void)initPeripheralManager:(CDVInvokedUrlCommand *)command {
 //instead of == nil, do if(!_peripheralManager || _peripheral... ! = ...)
     if(_peripheralManager == nil || _peripheralManager.state != CBPeripheralManagerStatePoweredOn) {
         // use the automatically generated getters and setters instead of the instance variable
@@ -23,16 +23,9 @@
     }
 
 // This multiline style of method calls isn't recommended, read this https://github.com/raywenderlich/objective-c-style-guide 
-    NSDictionary *jsonObj = [ [NSDictionary alloc]
-                             initWithObjectsAndKeys :
-                             @"true", @"success",
-                             nil
-                             ];
+    NSDictionary *jsonObj = [[NSDictionary alloc] initWithObjectsAndKeys: @"true", @"success", nil];
 
-    CDVPluginResult *pluginResult = [ CDVPluginResult
-                                     resultWithStatus    : CDVCommandStatus_OK
-                                     messageAsDictionary : jsonObj
-                                     ];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsDictionary: jsonObj];
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -49,7 +42,7 @@
 
 
 
--(void)addService:(CDVInvokedUrlCommand *)command {
+- (void)addService:(CDVInvokedUrlCommand *)command {
     NSMutableArray *characteristics = [[NSMutableArray alloc] init];
 
     // Nice use of enumeration 
@@ -75,7 +68,7 @@
 
 
 
--(void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error {
+- (void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error {
     // Execute publish event on 'didAddService' in JS
     NSString *js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('didAddService', %i)", peripheral.state];
     [self.commandDelegate evalJs:js];
@@ -85,7 +78,7 @@
 
 
 
--(void)startAdvertising:(CDVInvokedUrlCommand *)command {
+- (void)startAdvertising:(CDVInvokedUrlCommand *)command {
     CDVPluginResult *pluginResult;
     NSDictionary *jsonObj;
 
@@ -95,30 +88,16 @@
         [_peripheralManager startAdvertising:@{ CBAdvertisementDataLocalNameKey : [command.arguments objectAtIndex:0], CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:CBUUIDGenericAccessProfileString]] }];
 
         if (_peripheralManager.isAdvertising) {
-            jsonObj = [ [NSDictionary alloc]
-                       initWithObjectsAndKeys :
-                       @"true", @"success",
-                       nil
-                       ];
+            jsonObj = [[NSDictionary alloc] initWithObjectsAndKeys: @"true", @"success", nil];
 
 // Kill multiline method calls with fire!
-            pluginResult = [ CDVPluginResult
-                            resultWithStatus    : CDVCommandStatus_OK
-                            messageAsDictionary : jsonObj
-                            ];
+            pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsDictionary: jsonObj];
         }
     } else {
 // use dictionary literal here eg @{"false... 
-        jsonObj = [ [NSDictionary alloc]
-                   initWithObjectsAndKeys :
-                   @"false", @"error",
-                   nil
-                   ];
+        jsonObj = [ [NSDictionary alloc] initWithObjectsAndKeys: @"false", @"error", nil];
 
-        pluginResult = [ CDVPluginResult
-                        resultWithStatus    : CDVCommandStatus_ERROR
-                        messageAsDictionary : jsonObj
-                        ];
+        pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_ERROR messageAsDictionary: jsonObj];
     }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -126,18 +105,18 @@
 
 
 
--(void)stopAdvertising:(CDVInvokedUrlCommand *)command {
+- (void)stopAdvertising:(CDVInvokedUrlCommand *)command {
     [_peripheralManager stopAdvertising];
 }
 
 // add pragma here
 #pragma mark - Private
 
--(void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
+- (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
     NSLog(@"peripheral manager did start advertising: %@", peripheral);
 }
 
--(void)removeAllServices:(CDVInvokedUrlCommand *)command {
+- (void)removeAllServices:(CDVInvokedUrlCommand *)command {
     [_peripheralManager removeAllServices];
 }
 
