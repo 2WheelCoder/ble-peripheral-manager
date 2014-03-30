@@ -77,7 +77,7 @@ var BLEPeripheralManager = (function() {
         cordova.exec(
             // Register the callback handler
             function callback(data) {
-                console.log('advertising');
+                subscribe('didStartAdvertising', didStartAdvertising);
             },
             // Register the errorHandler
             function errorHandler(err) {
@@ -133,7 +133,11 @@ var BLEPeripheralManager = (function() {
 
     function updateState(topic, state) {
         var state = BLEStates[state];
-        console.log("state: ", state);
+        console.log('state: ', state);
+    }
+
+    function didStartAdvertising(topic) {
+        console.log('Peripheral Manager Did Start Advertising');
     }
 
     return {
