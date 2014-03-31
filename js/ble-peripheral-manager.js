@@ -14,12 +14,6 @@ var BLEPeripheralManager = (function() {
         var serviceUUID = serviceUUID ? serviceUUID : '51E7D768-92B2-49BE-AACC-FA22233128AB',
             characteristicUUID = characteristicUUID ? characteristicUUID : '95749716-6B14-4ECD-B51D-FBCE46DD0538';
 
-            // 11EE5D06-923A-4F62-AFB2-62F3BFE27BD3
-            // 5E2A7AED-B41F-4215-AFC9-CF97353A0425
-
-            // BLEPeripheralManager.addService(null, true, [['95749716-6B14-4ECD-B51D-FBCE46DD0538', 'service1Characteristic1']])
-            // BLEPeripheralManager.addService('11EE5D06-923A-4F62-AFB2-62F3BFE27BD3', false, [['5E2A7AED-B41F-4215-AFC9-CF97353A0425', 'service2Characteristic1']])
-
         cordova.exec(
             function callback(data) {
                 subscribe('didAddService', serviceAdded);
@@ -72,11 +66,9 @@ var BLEPeripheralManager = (function() {
         var localNameKey = localNameKey ? localNameKey : 'missing-service-name';
 
         cordova.exec(
-            // Register the callback handler
             function callback(data) {
                 console.log('advertising');
             },
-            // Register the errorHandler
             function errorHandler(err) {
                 alert('Error: ', err);
             },
@@ -91,7 +83,6 @@ var BLEPeripheralManager = (function() {
             function callback(data) {
                 console.log('stopped advertising');
             },
-            // Register the errorHandler
             function errorHandler(err) {
                 alert('Error: ', err);
             },

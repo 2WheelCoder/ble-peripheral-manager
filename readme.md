@@ -23,7 +23,7 @@ Creates a peripheral manager.
 
 ### BLEPeripheralManager.addService(serviceUUIDString, servicePrimary, characteristics)
 
-Creates a service with a UUID string you specify. servicePrimary is a boolean. Set to true if this is the main service for your app. Characteristics is an array of characteristic arrays (ideally the characteristic arrays would be objects, but passing objects into Objective-C via PhoneGap is a bit tedious).
+Creates a service with a UUID string you specify. servicePrimary is a boolean. Set to true if this is the main service for your app. Characteristics is an array of characteristic arrays (ideally the characteristic arrays would be objects, but passing objects into Objective-C via PhoneGap is a bit tedious). You may create multiple services by executing the method more than once before advertising.
 
     BLEPeripheralManager.addService('yourServiceUUID', true, [['characteristic1UUID', 'characteristic2UUID'], ['characteristic1UUID', 'characteristic2UUID']])
 
@@ -36,3 +36,17 @@ Begin advertising. This must be called after at least one service has been creat
 ### BLEPeripheralManager.stopAdvertising()
 
 Stops all advertising.
+
+## Example Usage
+
+	// Initialize Bluetooth on the device.
+	BLEPeripheralManager.init();
+
+	// Create a service and add characteristics to it. You may want to create your own UUIDs for the service characteristic by running uuidgen on the command line.
+	BLEPeripheralManager.addService('11EE5D06-923A-4F62-AFB2-62F3BFE27BD3', true, [['95749716-6B14-4ECD-B51D-FBCE46DD0538', 'characteristicValue']]);
+
+	// Start advertising services
+	BLEPeripheralManager.startAdvertising('aNameForYourDevice');
+
+	// Stop advertising when finished
+	BLEPeripheralManager.stopAdvertising();
