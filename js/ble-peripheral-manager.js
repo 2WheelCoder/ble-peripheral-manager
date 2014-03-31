@@ -10,6 +10,8 @@ var BLEPeripheralManager = (function() {
         'CBPeripheralManagerStatePoweredOn'
     ];
 
+    // Unit tests needed for js code also
+
     function addService(serviceUUID, servicePrimary, characteristics) {
         var serviceUUID = serviceUUID ? serviceUUID : '51E7D768-92B2-49BE-AACC-FA22233128AB',
             characteristicUUID = characteristicUUID ? characteristicUUID : '95749716-6B14-4ECD-B51D-FBCE46DD0538';
@@ -67,7 +69,7 @@ var BLEPeripheralManager = (function() {
 
         cordova.exec(
             function callback(data) {
-                console.log('advertising');
+                subscribe('didStartAdvertising', didStartAdvertising);
             },
             function errorHandler(err) {
                 alert('Error: ', err);
@@ -121,7 +123,11 @@ var BLEPeripheralManager = (function() {
 
     function updateState(topic, state) {
         var state = BLEStates[state];
-        console.log("state: ", state);
+        console.log('state: ', state);
+    }
+
+    function didStartAdvertising(topic) {
+        console.log('Peripheral Manager Did Start Advertising');
     }
 
     return {
