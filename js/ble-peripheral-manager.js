@@ -11,9 +11,6 @@ var BLEPeripheralManager = (function() {
     ];
 
     function addService(serviceUUID, servicePrimary, characteristics) {
-        var serviceUUID = serviceUUID ? serviceUUID : '51E7D768-92B2-49BE-AACC-FA22233128AB',
-            characteristicUUID = characteristicUUID ? characteristicUUID : '95749716-6B14-4ECD-B51D-FBCE46DD0538';
-
         cordova.exec(
             function callback(data) {
                 subscribe('didAddService', serviceAdded);
