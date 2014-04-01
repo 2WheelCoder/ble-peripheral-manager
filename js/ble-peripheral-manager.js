@@ -24,18 +24,22 @@ var BLEPeripheralManager = (function() {
         );
     }
 
-    function init() {
+    function didStartAdvertising(topic) {
+        console.log('Peripheral Manager Did Start Advertising');
+    }
+
+    function removeAllServices() {
         cordova.exec(
             function callback(data) {
-                subscribe('peripheralManagerDidUpdateState', updateState);
+                console.log('all services removed');
             },
             function errorHandler(err) {
                 alert('Error: ', err);
             },
             'BLEPeripheralManager',
-            'initPeripheralManager',
+            'removeAllServices',
             []
-         );
+        );
     }
 
     function publish(topic, args) {
@@ -87,20 +91,6 @@ var BLEPeripheralManager = (function() {
         );
     }
 
-    function removeAllServices() {
-        cordova.exec(
-            function callback(data) {
-                console.log('all services removed');
-            },
-            function errorHandler(err) {
-                alert('Error: ', err);
-            },
-            'BLEPeripheralManager',
-            'removeAllServices',
-            []
-        );
-    }
-
     function subscribe(topic, func) {
         if (!topics[topic]) {
             topics[topic] = [];
@@ -131,10 +121,6 @@ var BLEPeripheralManager = (function() {
     function updateState(topic, state) {
         var state = BLEStates[state];
         console.log('state: ', state);
-    }
-
-    function didStartAdvertising(topic) {
-        console.log('Peripheral Manager Did Start Advertising');
     }
 
     return {
