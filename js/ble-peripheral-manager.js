@@ -28,20 +28,6 @@ var BLEPeripheralManager = (function() {
         console.log('Peripheral Manager Did Start Advertising');
     }
 
-    function removeAllServices() {
-        cordova.exec(
-            function callback(data) {
-                console.log('all services removed');
-            },
-            function errorHandler(err) {
-                alert('Error: ', err);
-            },
-            'BLEPeripheralManager',
-            'removeAllServices',
-            []
-        );
-    }
-
     function publish(topic, args) {
         if ( !topics[topic] ) {
             return false;
@@ -55,6 +41,20 @@ var BLEPeripheralManager = (function() {
         }
 
         return this;
+    }
+
+    function removeAllServices() {
+        cordova.exec(
+            function callback(data) {
+                console.log('all services removed');
+            },
+            function errorHandler(err) {
+                alert('Error: ', err);
+            },
+            'BLEPeripheralManager',
+            'removeAllServices',
+            []
+        );
     }
 
     function serviceAdded() {
