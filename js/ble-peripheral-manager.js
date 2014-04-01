@@ -10,8 +10,6 @@ var BLEPeripheralManager = (function() {
         'CBPeripheralManagerStatePoweredOn'
     ];
 
-    // Unit tests needed for js code also
-
     function addService(serviceUUID, servicePrimary, characteristics) {
         var serviceUUID = serviceUUID ? serviceUUID : '51E7D768-92B2-49BE-AACC-FA22233128AB',
             characteristicUUID = characteristicUUID ? characteristicUUID : '95749716-6B14-4ECD-B51D-FBCE46DD0538';
@@ -25,8 +23,6 @@ var BLEPeripheralManager = (function() {
             },
             'BLEPeripheralManager',
             'addService',
-            // characteristics is an array of characteristic arrays
-            // [[characteristic1UUID, characteristic1Value], [characteristic2UUID, characteristic2Value]]
             [serviceUUID, servicePrimary, characteristics]
         );
     }
@@ -94,6 +90,20 @@ var BLEPeripheralManager = (function() {
         );
     }
 
+    function removeAllServices() {
+        cordova.exec(
+            function callback(data) {
+                console.log('all services removed');
+            },
+            function errorHandler(err) {
+                alert('Error: ', err);
+            },
+            'BLEPeripheralManager',
+            'removeAllServices',
+            []
+        );
+    }
+
     function subscribe(topic, func) {
         if (!topics[topic]) {
             topics[topic] = [];
@@ -134,6 +144,7 @@ var BLEPeripheralManager = (function() {
         addService: addService,
         init: init,
         publish: publish,
+        removeAllServices: removeAllServices,
         startAdvertising: startAdvertising,
         stopAdvertising: stopAdvertising
     };
