@@ -21,7 +21,6 @@
 
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
-    // Execute publish event on 'peripheralManagerDidUpdateState' in JS
     NSString *js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('peripheralManagerDidUpdateState', %i);", peripheral.state];
     
     [self.commandDelegate evalJs:js];
@@ -33,27 +32,31 @@
 
 - (void)addService:(CDVInvokedUrlCommand *)command {
     NSMutableArray *characteristics = [[NSMutableArray alloc] init];
+
+    NSError *error = nil;
+    NSData *jsonService = [[command.arguments objectAtIndex:0] dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *serviceArgs = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:jsonService options:kNilOptions error:&error];
     
-    for (NSArray *characteristicIndex in [command.arguments objectAtIndex:2]) {
-        NSString *value = [characteristicIndex objectAtIndex:1];
+    for (NSDictionary *characteristicArgs in [serviceArgs valueForKey:@"characteristics"]) {
+        NSString *value = [characteristicArgs objectForKey:@"value"];
         NSData *dataValue = [value dataUsingEncoding:NSUTF8StringEncoding];
-        
-        CBMutableCharacteristic *characteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:[characteristicIndex objectAtIndex:0]] properties:CBCharacteristicPropertyRead value:dataValue permissions:CBAttributePermissionsReadable];
-        
+
+        CBMutableCharacteristic *characteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:[characteristicArgs objectForKey:@"UUID"]] properties:CBCharacteristicPropertyRead value:dataValue permissions:CBAttributePermissionsReadable];
+
         [characteristics addObject:characteristic];
     }
-    
-    CBUUID *uuid = [CBUUID UUIDWithString:[command.arguments objectAtIndex:0]];
-    BOOL boolArgument = [[NSNumber numberWithInt:(NSInteger)command.arguments[1]] boolValue];
-    
-    CBMutableService *service = [[CBMutableService alloc] initWithType:uuid primary:boolArgument];
-    
+
+    CBUUID *uuid = [CBUUID UUIDWithString:[serviceArgs valueForKey:@"UUID"]];
+    BOOL primaryBool = [[NSNumber numberWithInt:(NSInteger)[serviceArgs valueForKey:@"primary"]] boolValue];
+
+    CBMutableService *service = [[CBMutableService alloc] initWithType:uuid primary:primaryBool];
+
     NSLog(@"characteristics: %@", characteristics);
-    
+
     NSArray *immutableCharacteristics = [characteristics copy];
-    
+
     service.characteristics = immutableCharacteristics;
-    
+
     [_peripheralManager addService:service];
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK];
@@ -102,7 +105,6 @@
 #pragma mark - CBPeripheralManagerDelegate
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error {
-    // Execute publish event on 'didAddService' in JS
     NSString *js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('didAddService');"];
     [self.commandDelegate evalJs:js];
     

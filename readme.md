@@ -8,7 +8,6 @@ This plugin is only for Bluetooth Peripheral Manager functionality. If you're lo
 
 - improved documentation
 - success and error callbacks for asynchronous methods
-- adding characteristics as objects instead of arrays
 - ability to update a characteristic's value
 
 ## Installation
@@ -17,13 +16,15 @@ This plugin is only for Bluetooth Peripheral Manager functionality. If you're lo
 
 ## Methods
 
-### BLEPeripheralManager.addService(serviceUUIDString, servicePrimary, characteristics)
+### BLEPeripheralManager.addService(service)
 
-Creates a service with a UUID string you specify. servicePrimary is a boolean. Set to true if this is the main service for your app. Characteristics is an array of characteristic arrays (ideally the characteristic arrays would be objects, but passing objects into Objective-C via PhoneGap is a bit tedious). You may create multiple services by executing the method more than once before advertising.
+Creates a service from an object you pass. All object parameters are required. You may call this multiple times to add multiple services, but all services must be added before you start advertising.
 
-    BLEPeripheralManager.addService('yourServiceUUID', true, [['characteristic1UUID', 'characteristic2UUID'], ['characteristic1UUID', 'characteristic2UUID']])
+#### Parameters:
 
-You may call this multiple times to add multiple services, but all services must be added before you start advertising.
+- UUID: A UUID string. Create by running 'uuidgen' on the command line.
+- primary: True or false as to whether this is the primary service for your app. True if you are only running one service.
+- characteristics: An array of characteristics for this service. Each characteristic has two parameters, UUID and value, that are both strings. Characteristic values must be a string, not null, an array or an object. See example.
 
 ### BLEPeripheralManager.removeAllServices()
 
@@ -39,8 +40,24 @@ Stops all advertising.
 
 ## Example Usage
 
-	// Create a service and add characteristics to it. You may want to create your own UUIDs for the service characteristic by running uuidgen on the command line.
-	BLEPeripheralManager.addService('11EE5D06-923A-4F62-AFB2-62F3BFE27BD3', true, [['95749716-6B14-4ECD-B51D-FBCE46DD0538', 'characteristicValue']]);
+	// Setup a service object. You should create your own UUIDs for the service characteristic by running 'uuidgen' on the command line.
+	var service = {
+		UUID: '4A1CD3FC-40FF-40D3-8B59-1F3D89A7C5CE',
+		primary: true,
+		characteristics: [
+			{
+				UUID: '7EFB9DB8-CDD7-4989-90C8-F45CEB07133F',
+				value: 'characteristic1Value'
+			},
+			{
+				UUID: '558A7EBE-8429-442F-9782-E71A6FDCA9C5',
+				value: 'characteristic2Value'
+			}
+		]
+	};
+
+	// Add your service
+	BLEPeripheralManager.addService(service)
 
 	// Start advertising services
 	BLEPeripheralManager.startAdvertising('aNameForYourDevice');

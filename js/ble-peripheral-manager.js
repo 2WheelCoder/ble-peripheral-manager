@@ -10,7 +10,9 @@ var BLEPeripheralManager = (function() {
         'CBPeripheralManagerStatePoweredOn'
     ];
 
-    function addService(serviceUUID, servicePrimary, characteristics) {
+    function addService(service) {
+        var jsonService = JSON.stringify(service);
+
         cordova.exec(
             function callback(data) {
                 subscribe('didAddService', serviceAdded);
@@ -20,7 +22,7 @@ var BLEPeripheralManager = (function() {
             },
             'BLEPeripheralManager',
             'addService',
-            [serviceUUID, servicePrimary, characteristics]
+            [jsonService]
         );
     }
 
