@@ -20,16 +20,6 @@
 
 
 
-- (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
-    NSString *js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('peripheralManagerDidUpdateState', %i);", peripheral.state];
-    
-    [self.commandDelegate evalJs:js];
-    
-    NSLog(@"state: %i", peripheral.state);
-}
-
-
-
 - (void)addService:(CDVInvokedUrlCommand *)command {
     NSMutableArray *characteristics = [[NSMutableArray alloc] init];
 
@@ -104,12 +94,24 @@
 
 #pragma mark - CBPeripheralManagerDelegate
 
+- (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
+    NSString *js = [NSString stringWithFormat:@"BLEPeripheralManager.logState(%i);", peripheral.state];
+    
+    [self.commandDelegate evalJs:js];
+    
+    NSLog(@"state: %i", peripheral.state);
+}
+
+
+
 - (void)peripheralManager:(CBPeripheralManager *)peripheral didAddService:(CBService *)service error:(NSError *)error {
     NSString *js = [NSString stringWithFormat:@"BLEPeripheralManager.publish('didAddService');"];
     [self.commandDelegate evalJs:js];
     
     NSLog(@"did add service: %@", service.characteristics);
 }
+
+
 
 - (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
     NSLog(@"peripheral manager did start advertising: %@", peripheral);
